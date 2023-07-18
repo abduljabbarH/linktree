@@ -5,7 +5,7 @@ import {
 import Login from "./components/login/Login";
 import CreateUser from "./components/create-user/CreateUser";
 import Home from "./components/Home/Home";
-import {getAuth, onAuthStateChanged } from "@firebase/auth"
+import { getAuth, onAuthStateChanged } from "@firebase/auth"
 //get the onAuthStateChanged method (add in with the others)
 
 export default function App() {

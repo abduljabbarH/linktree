@@ -1,4 +1,4 @@
-import linktreeLogo from "../../assets/lin"
+import linktreeLogo from '../../assets/linktree-logo.svg'
 import './Login.css'
 
 import { useState } from 'react';
