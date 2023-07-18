@@ -1,34 +1,35 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import './App.css'
+import React from "react";
+import {
+  BrowserRouter as Router, Routes, Route
+} from 'react-router-dom/dist'
+import Login from "./components/login/Login";
+import CreateUser from "./components/create-user/CreateUser";
+import Home from "./components/Home/Home";
+import {getAuth, onAuthStateChanged } from "@firebase/auth"
+//get the onAuthStateChanged method (add in with the others)
 
-function App() {
-  const [count, setCount] = useState(0)
-
-  return (
-    <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </div>
-  )
+export default function App() {
+  onAuthStateChanged(getAuth(),(user) =>{
+    console.log(user)
+  })
+return (
+  <Router>
+    <Routes>
+    <Route
+        path="/"
+        Component={Home}
+      />
+      <Route
+        path="/login"
+        Component={Login}
+      />
+      <Route
+        path='/create-user'
+        Component={CreateUser}
+      />
+    </Routes>
+  </Router>
+)
 }
 
-export default App
+

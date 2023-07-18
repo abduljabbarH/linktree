@@ -1,8 +1,8 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import './index.css'
-import firebase from 'firebase'
-import Login from './components/login/Login'
+import firebase from '@firebase/app/dist/app'
+import App from './App'
 
 firebase.initializeApp({
   apiKey: "AIzaSyDTNpW16rVeAke-5vhMLFNtqBTtzI0MKF8",
@@ -16,6 +16,6 @@ firebase.initializeApp({
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
-    <Login />
+    <App />
   </React.StrictMode>,
 )
