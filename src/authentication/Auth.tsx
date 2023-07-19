@@ -16,9 +16,11 @@ export function useAuth() {
       return signInWithEmailAndPassword(getAuth(), email, password)
       .then((userCredential) => {
         // Signed in 
+        console.log('hi')
           setAuthed(true);
           setUser(userCredential.user);
       }).catch((error) => {
+        console.log('hi', error)
         setAuthed(false)
       });
     },
