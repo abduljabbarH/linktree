@@ -1,6 +1,21 @@
+import { FormEvent } from "react";
+import { useAuth } from "../../authentication/Auth"
+import { useNavigate } from "react-router-dom";
 
 export default function Home (){
+  const logout = useAuth().logout();
+  const navigate = useNavigate()
+  const submitLogout = async (e: FormEvent) => {
+    e.preventDefault();
+    await logout.then(() => {
+      sessionStorage.removeItem('authToken')
+      navigate('/login')
+    });
+  }
+  
+  
+
   return (
-    <div> Home </div>
+    <button onClick={submitLogout}>LogOut</button>
   )
 }

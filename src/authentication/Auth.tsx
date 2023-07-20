@@ -2,48 +2,45 @@ import {
   getAuth, 
   signInWithEmailAndPassword, 
   signOut,
-  createUserWithEmailAndPassword
+  createUserWithEmailAndPassword,
+  
 } from "@firebase/auth";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Navigate, Outlet } from "react-router-dom";
 
 export function useAuth() {
-  const [authed, setAuthed] = useState<boolean>(false);
   const [user, setUser] = useState<any>();
   return {
-    authed,
-    login(email: string, password: string) {
-      return signInWithEmailAndPassword(getAuth(), email, password)
+    async login(email: string, password: string) {
+      return await signInWithEmailAndPassword(getAuth(), email, password)
       .then((userCredential) => {
         // Signed in 
-        console.log('hi')
-          setAuthed(true);
-          setUser(userCredential.user);
+        return userCredential.user.getIdToken();
       }).catch((error) => {
-        console.log('hi', error)
-        setAuthed(false)
+        return Promise.reject(error)
       });
     },
     logout() {
       return signOut(getAuth())
       .then(() => {
-        setAuthed(false);
-        setUser(null)
+        // better place to remove auth session storage
       })
     },
-    createUser(email: string, password: string) {
-      return createUserWithEmailAndPassword(getAuth(), email, password)
+    async createUser(email: string, password: string) {
+      return await createUserWithEmailAndPassword(getAuth(), email, password)
       .then((userCredential) => {
         // Signed in 
-          setAuthed(true);
-          setUser(userCredential.user);
-      }).catch(() => {
-        setAuthed(false)
-      })
+        return userCredential.user.getIdToken()
+      }).catch((error) => {
+        return Promise.reject(error)
+      });
     }
   };
 }
 
 export function PrivateRoutes() {
-  return useAuth().authed ? <Outlet/> : <Navigate to={'/login'}/>
+  console.log(sessionStorage.getItem('authToken'))
+  if(sessionStorage.getItem('authToken')){console.log('test if clause')}
+  return sessionStorage.getItem('authToken') ? <Outlet/> : <Navigate to={'/login'}/>
+  // return useAuth().authed ? <Outlet/> : <Navigate to={'/login'}/>
 }

@@ -12,10 +12,13 @@ function Login (){
   const [password, setPassword] = useState('');
   const login = useAuth().login;
 
-  const submitLogin = (e: FormEvent) => {
+  const submitLogin = async (e: FormEvent) => {
     e.preventDefault();
-    login(email,password).then(() => navigate('/'));
-    console.log(email,password)
+    await login(email,password).then((value) => {
+      console.log(value);
+      sessionStorage.setItem('authToken', value)
+      navigate('/')
+    },(rejected) => console.error('sad'))
   }
 
   return (
@@ -44,6 +47,10 @@ function Login (){
           />
           <button type='submit' className='login-button'>Log In</button>
         </form>
+        <div> 
+          <span>Dont have an account? </span>
+          <a href='/create-user'>Sign Up</a>
+        </div>
       </div>
     </div> 
   )
